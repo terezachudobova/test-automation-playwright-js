@@ -1,0 +1,9 @@
+{
+  "name": "automation-playwright",
+  "version": "1.0.0",
+  "devDependencies": {
+    "@playwright/test": "^1.45.3",
+    "@types/node": "^20.14.11"
+  },
+  "scripts": {}
+}
