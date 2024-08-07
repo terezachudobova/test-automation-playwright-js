@@ -32,3 +32,8 @@ npx playwright test
 npx playwright show-report
 
 ```
+
+**To update playwright:**
+```
+npx playwright install 
+```
