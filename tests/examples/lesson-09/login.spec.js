@@ -1,5 +1,5 @@
 /**
- * Lesson 8: Code organization: Page Object Model - Exercise 1
+ * Lesson 9: Code organization: Page Object Model - Exercise 1
  */
 import {username, password, userFullName, ApplicationTexts} from '../../fixtures.js'
 import {expect, test} from "@playwright/test";
@@ -23,15 +23,12 @@ test.describe('Login Page', async () => {
         await expect(loginPage.passwordField, 'password field should be enabled').toBeEnabled();
 
         await expect(loginPage.loginButton, 'login button should be visible').toBeVisible();
-        await expect(loginPage.loginButton, 'login button text should have text').toHaveText('Přihlásit');
+        await expect(loginPage.loginButton, 'login button text should have text')
+            .toHaveText(ApplicationTexts.loginPage.loginButtonLabel);
     });
 
     test('should login with valid credentials', async ({page}) => {
         const loginPage = new LoginPage(page);
-
-        // await loginPage.emailField.fill(username);
-        // await loginPage.passwordField.fill(password);
-        // await loginPage.loginButton.click();
 
         await loginPage.login(username, password);
 
@@ -40,13 +37,6 @@ test.describe('Login Page', async () => {
 
     test('should not login with invalid credentials', async ({ page }) => {
         const loginPage = new LoginPage(page);
-        // const emailField = getEmailField(page);
-        // const passwordField = getPasswordField(page);
-        // const loginButton = getLoginButton(page);
-
-        // await loginPage.emailField.fill(username);
-        // await loginPage.passwordField.fill('invalid');
-        // await loginPage.loginButton.click();
 
         await loginPage.login(username, 'invalid');
 
@@ -60,10 +50,6 @@ test.describe('Login Page', async () => {
 
     test('should logout', async ({ page }) => {
         const loginPage = new LoginPage(page);
-
-        // await loginPage.emailField.fill(username);
-        // await loginPage.passwordField.fill(password);
-        // await loginPage.loginButton.click();
 
         await loginPage.login(username, password);
 

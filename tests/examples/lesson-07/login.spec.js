@@ -47,7 +47,6 @@ async function login(page, username, password) {
     await page.getByLabel('Email').fill(username);
     await page.getByLabel('Heslo').fill(password);
     await page.getByRole('button', { name: 'Přihlásit'}).click();
-
 }
 
 test.describe('Login Page', async () => {
@@ -117,7 +116,7 @@ test.describe('Login Page', async () => {
         await getUserNameDropdown(page).click();
         await getLogoutLink(page).click();
 
-        await expect(await getUserNameDropdown(page)).toBeVisible();
+        await expect(await getUserNameDropdown(page)).toBeVisible({ visible: false });
         await expect(await getRightNavbar(page)).toHaveText('Přihlásit');
     });
 });

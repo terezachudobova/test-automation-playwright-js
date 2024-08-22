@@ -1,63 +1,40 @@
 /**
- * Lesson 7: Code organization: functions - Exercise 2
+ * Lesson 9: Code organization: Page Object Model - Exercise 2
  */
 import {expect, test} from "@playwright/test";
 import {
     username,
     password,
     defaultApplicationsPageSize,
+    ApplicationTexts,
     applicationsSearchText,
     applicationsPageSize
 } from '../../fixtures.js'
+import {LoginPage} from "./pages/login.page";
+import {ApplicationsPage} from "./pages/applications.page";
 import {RegExp} from "../../regular-expressions";
-
-const pageTitle = 'Přihlášky Czechitas';
-
-async function login(page) {
-    await page.goto('/prihlaseni');
-    await page.getByLabel('Email').fill(username);
-    await page.getByLabel('Heslo').fill(password);
-    await page.getByRole('button', { name: 'Přihlásit'}).click();
-}
-
-async function goToApplicationsPage(page) {
-    await page.getByRole('link', {name: 'Přihlášky'}).click();
-}
-
-async function waitForTableToLoad(page) {
-    await page.waitForLoadState();
-    await page.locator('#DataTables_Table_0_processing').waitFor({state: 'hidden'});
-}
-
-async function getApplicationsTableRows(page) {
-    return await page
-        .locator('.dataTable')
-        .locator('tbody')
-        .locator('tr')
-        .all();
-}
-
-async function searchInApplicationsTable(page, text) {
-    await page.locator('input[type="search"]').fill(text);
-    await page.locator('#DataTables_Table_0_processing'); // waits for loader to appear
-}
 
 test.describe('Applications Page', async () => {
 
     test.beforeEach(async ({page}) => {
-        await login(page);
-        await test.expect(page).toHaveTitle(pageTitle);
-        await goToApplicationsPage(page);
-        await waitForTableToLoad(page);
+        const loginPage = new LoginPage(page);
+        const applicationsPage = new ApplicationsPage(page);
+
+        await loginPage.open();
+        await loginPage.login(username, password);
+        await applicationsPage.goToApplicationsPage();
+        await test.expect(page).toHaveTitle(ApplicationTexts.applicationsPage.title);
     });
 
     test('should list all applications', async ({ page }) => {
+        const applicationsPage = new ApplicationsPage(page);
+
         // get all rows
-        const allRows = await getApplicationsTableRows(page);
+        const allRows = await applicationsPage.getApplicationsTableRows(page);
         await expect(allRows.length, 'table should have >= ' + applicationsPageSize + ' rows')
             .toBeGreaterThanOrEqual(applicationsPageSize);
 
-        // iterate over all rows
+        // iterate over rows
         for (const row of allRows) {
             const cells = row.locator('td');
             await expect(await cells.nth(0).textContent()).toMatch(RegExp.NAME);
@@ -68,20 +45,19 @@ test.describe('Applications Page', async () => {
     });
 
     test('should filter in applications', async ({ page }) => {
-        await expect(await getApplicationsTableSizeInfo(page))
-            .toContain('Zobrazeno 1 až ' + applicationsPageSize + ' záznamů z');
+        const applicationsPage = new ApplicationsPage(page);
 
         // get all rows
-        const allRows = await getApplicationsTableRows(page);
+        const allRows = await applicationsPage.getApplicationsTableRows();
         await expect(allRows.length, 'table should have >= ' + applicationsPageSize + ' rows')
             .toBeGreaterThanOrEqual(applicationsPageSize);
 
         // search in table
-        await searchInApplicationsTable(page, applicationsSearchText);
-        await waitForTableToLoad(page);
+        await applicationsPage.searchInApplicationsTable(applicationsSearchText);
+        await applicationsPage.waitForTableToLoad();
 
         // get filtered rows
-        const filteredRows = await getApplicationsTableRows(page);
+        const filteredRows = await applicationsPage.getApplicationsTableRows();
         await expect(filteredRows.length, 'table should have < ' + allRows.length + ' rows')
             .toBeLessThan(allRows.length);
 

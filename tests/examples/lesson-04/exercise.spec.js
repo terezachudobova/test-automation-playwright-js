@@ -114,7 +114,7 @@ test.describe('Applications Page', async () => {
     });
 
     test('should filter in applications', async ({ page }) => {
-        const tableSizeInfo = page.locator('#DataTables_Table_0_info').textContent();
+        const tableSizeInfo = page.locator('#DataTables_Table_0_info');
         await page.locator('input[type="search"]').fill('mar');
         await page.waitForLoadState()
 

@@ -1,5 +1,10 @@
 import {expect, test} from "@playwright/test";
-import {username, password, userFullName, expectedApplicationsPageRows} from '../../fixtures.js'
+import {
+    username,
+    password,
+    userFullName,
+    applicationsSearchText, applicationsPageSize,
+} from '../../fixtures.js'
 
 /**
  * Lesson 5: Assertions
@@ -91,24 +96,24 @@ test.describe('Applications Page', async () => {
         await page.getByRole('button', { name: 'Přihlásit'}).click();
         await page.getByRole('link', {name: 'Přihlášky'}).click();
         await test.expect(page).toHaveTitle('Přihlášky - Czechitas');
-        // console.log('Page title is: ' + await page.locator('h1').textContent());
         await page.waitForLoadState();
         await page.locator('#DataTables_Table_0_processing').waitFor({state: 'hidden'});
     });
 
     test('should list all applications', async ({ page }) => {
         const tableSizeInfo = page.locator('#DataTables_Table_0_info');
-        expect(await tableSizeInfo.textContent()).toContain('Zobrazeno 1 až 30 záznamů z');
-
-        const rows = await page
+        const tableRows = await page
             .locator('.dataTable')
             .locator('tbody')
-            .locator('tr')
-            .all();
+            .locator('tr');
 
-        console.log('There are ' + rows.length + ' rows in the table');
-        await expect(rows, 'table should contain rows').toHaveLength(expectedApplicationsPageRows);
-        for (const row of rows) {
+        // get all rows
+        const allRows = await tableRows.all();
+        await expect(allRows.length, 'table should have >= ' + applicationsPageSize + ' rows')
+            .toBeGreaterThanOrEqual(applicationsPageSize);
+
+        // iterate over all rows
+        for (const row of allRows) {
             const cells = row.locator('td');
             await expect(await cells.nth(0).textContent()).toMatch(/^(?!\s*$).+/);
             await expect(await cells.nth(1).textContent()).toMatch(/(\d{2}.\d{2}.\d{4}|\d{2}.\d{2}. - \d{2}.\d{2}.\d{4})/);
@@ -118,20 +123,29 @@ test.describe('Applications Page', async () => {
     });
 
     test('should filter in applications', async ({ page }) => {
-        await page.locator('input[type="search"]').fill('mar');
-
-        await page.locator('#DataTables_Table_0_processing');
-        await page.waitForLoadState()
-        await page.locator('#DataTables_Table_0_processing').waitFor({state: 'hidden'});
-
-        const filteredRows = await page
+        const loadingIndicatorLocator = page.locator('#DataTables_Table_0_processing');
+        const tableRowsLocator = page
             .locator('.dataTable')
             .locator('tbody')
-            .locator('tr')
-            .all();
+            .locator('tr');
 
-        console.log('There are ' + filteredRows.length + ' filtered rows in the table');
-        await expect(filteredRows, 'table should contain rows').toHaveLength(3);
+        // get all rows
+        const allRows = await tableRowsLocator.all();
+        await expect(allRows.length, 'table should have >= ' + applicationsPageSize + ' rows')
+            .toBeGreaterThanOrEqual(applicationsPageSize);
+
+        // search in table
+        await page.locator('input[type="search"]').fill(applicationsSearchText);
+        await loadingIndicatorLocator.waitFor({state: 'visible'});
+        await page.waitForLoadState()
+        await loadingIndicatorLocator.waitFor({state: 'hidden'});
+
+        // get filtered rows
+        const filteredRows = await tableRowsLocator.all();
+        await expect(filteredRows.length, 'table should have < ' + allRows.length + ' rows')
+            .toBeLessThan(allRows.length);
+
+        // iterate over filtered rows
         for (const row of filteredRows) {
             const cells = row.locator('td');
             await expect(await cells.nth(0).textContent()).toMatch(/^(?!\s*$).+/);

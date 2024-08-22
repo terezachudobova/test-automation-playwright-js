@@ -1,13 +1,8 @@
 /**
- * Lesson 8: Code organization: Page Object Model - Exercise 2
+ * Lesson 10: Code organization: Page Object Model - Components - Exercise 2
  */
 import {expect, test} from "@playwright/test";
-import {
-    username,
-    password,
-    ApplicationTexts,
-    applicationsSearchText, applicationsPageSize
-} from '../../fixtures.js'
+import {username, password, applicationsSearchText, applicationsPageSize} from '../../fixtures.js'
 import {RegExp} from "../../regular-expressions";
 import {LoginPage} from "./pages/login.page";
 import {ApplicationsPage} from "./pages/applications.page";
@@ -27,42 +22,53 @@ test.describe('Applications Page', async () => {
     test('should list all applications', async ({ page }) => {
         const applicationsPage = new ApplicationsPage(page);
 
-        // get all rows
         const allRows = await applicationsPage.getApplicationsTableRows(page);
         await expect(allRows.length, 'table should have >= ' + applicationsPageSize + ' rows')
             .toBeGreaterThanOrEqual(applicationsPageSize);
 
-        // iterate over rows
-        for (const row of allRows) {
-            const cells = row.locator('td');
-            await expect(await cells.nth(0).textContent()).toMatch(RegExp.NAME);
-            await expect(await cells.nth(1).textContent()).toMatch(RegExp.DATE);
-            await expect(await cells.nth(2).textContent()).toMatch(RegExp.PAYMENT_TYPE);
-            await expect(await cells.nth(3).textContent()).toMatch(RegExp.TO_PAY);
+        for (const row of rows) {
+            console.log(row);
+            const values = await row.getValues();
+            await expect(values.name).toMatch(RegExp.NAME);
+            await expect(values.date).toMatch(RegExp.DATE);
+            await expect(values.paymentType).toMatch(RegExp.PAYMENT_TYPE);
+            await expect(values.toPay).toMatch(RegExp.TO_PAY);
         }
     });
 
     test('should filter in applications', async ({ page }) => {
         const applicationsPage = new ApplicationsPage(page);
 
-        // get all rows
         const allRows = await applicationsPage.getApplicationsTableRows();
         await expect(allRows.length, 'table should have >= ' + applicationsPageSize + ' rows')
             .toBeGreaterThanOrEqual(applicationsPageSize);
 
-        // search in table
         await applicationsPage.searchInApplicationsTable(applicationsSearchText);
         await applicationsPage.waitForTableToLoad();
 
-        // get filtered rows
         const filteredRows = await applicationsPage.getApplicationsTableRows();
         await expect(filteredRows.length, 'table should have < ' + allRows.length + ' rows')
             .toBeLessThan(allRows.length);
 
-        // iterate over filtered rows
         for (const row of filteredRows) {
-            const cells = row.locator('td');
-            await expect(await cells.nth(0).textContent()).toContain(applicationsSearchText);
+            const values = await row.getValues();
+            await expect(values.name.toLowerCase()).toContain(applicationsSearchText);
         }
     });
+
+    // it('should open application detail', async () => {
+    //
+    //     // vybere třetí přihlášku v tabulce (musí tam samozřejmě být alespoň 3)
+    //     const thirdRow = (await ApplicationsPage.getTableRows())[2];
+    //     const [lastName, firstName, secondName] = (await thirdRow.getValues()).name.split(' ');
+    //
+    //     // otevře detail přihlášky
+    //     const applicationDetailPage = await thirdRow.getInfo();
+    //
+    //     // získá obsah detailu přihlášky
+    //     const applicationDetail = await applicationDetailPage.getDetail();
+    //
+    //     await expect(applicationDetail).toContainEqual(['Křestní jméno žáka:', [firstName, secondName].join(' ')]);
+    //     await expect(applicationDetail).toContainEqual(['Příjmení žáka:', lastName]);
+    // });
 });

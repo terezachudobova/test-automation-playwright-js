@@ -1,10 +1,11 @@
 /**
  * Page object describing the applications page
  */
-exports.ApplicationsPage = class ApplicationsPage {
+const {AppPage} = require("./app.page");
+exports.ApplicationsPage = class ApplicationsPage extends AppPage {
 
     constructor(page) {
-        this.page = page;
+        super(page, 'admin/prihlasky');
         this.aplicationsLink = this.page.getByRole('link', {name: 'Přihlášky'});
         this.loadingIndicator = this.page.locator('#DataTables_Table_0_processing');
         this.applicationsTable = this.page.locator('.dataTable');
