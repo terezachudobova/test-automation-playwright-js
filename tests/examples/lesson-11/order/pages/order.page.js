@@ -14,19 +14,45 @@ export class OrderPage extends AppPage {
     this._endDate1Id = "end_date_1";
   }
 
-  get companyIdField() { return this.mainContent.locator(`#${this._companyIdFieldId}`); }
-  get clientField() { return this.mainContent.locator(`#${this._clientFieldId}`); }
-  get addressField() { return this.mainContent.locator(`#${this._addressFieldId}`); }
-  get substituteField() { return this.mainContent.locator(`#${this._substituteFieldId}`); }
-  get contactNameField() { return this.mainContent.locator(`#${this._contactNameFieldId}`); }
-  get contactPhoneField() { return this.mainContent.locator(`#${this._contactPhoneFieldId}`); }
-  get contactEmailField() { return this.mainContent.locator(`#${this._contactEmailFieldId}`); }
-  get startDateField() { return this.mainContent.locator(`#${this._startDate1Id}`); }
-  get endDateField() { return this.mainContent.locator(`#${this._endDate1Id}`); }
-  get tabSelector() { return this.mainContent.locator("#nav-tab"); }
-  get submitButton() { return this.mainContent.getByRole("button", { name: "Uložit objednávku" }); }
-  get orderConfirmationText() { return this.page.locator(".card-body").locator("p"); }
-  get suburbanCampForm() { return new SuburbanCampForm(this.page); }
+  get companyIdField() {
+    return this.mainContent.locator(`#${this._companyIdFieldId}`);
+  }
+  get clientField() {
+    return this.mainContent.locator(`#${this._clientFieldId}`);
+  }
+  get addressField() {
+    return this.mainContent.locator(`#${this._addressFieldId}`);
+  }
+  get substituteField() {
+    return this.mainContent.locator(`#${this._substituteFieldId}`);
+  }
+  get contactNameField() {
+    return this.mainContent.locator(`#${this._contactNameFieldId}`);
+  }
+  get contactPhoneField() {
+    return this.mainContent.locator(`#${this._contactPhoneFieldId}`);
+  }
+  get contactEmailField() {
+    return this.mainContent.locator(`#${this._contactEmailFieldId}`);
+  }
+  get startDateField() {
+    return this.mainContent.locator(`#${this._startDate1Id}`);
+  }
+  get endDateField() {
+    return this.mainContent.locator(`#${this._endDate1Id}`);
+  }
+  get tabSelector() {
+    return this.mainContent.locator("#nav-tab");
+  }
+  get submitButton() {
+    return this.mainContent.getByRole("button", { name: "Uložit objednávku" });
+  }
+  get orderConfirmationText() {
+    return this.page.locator(".card-body").locator("p");
+  }
+  get suburbanCampForm() {
+    return new SuburbanCampForm(this.page);
+  }
 
   async getFilledValues() {
     return {
@@ -93,10 +119,18 @@ class SuburbanCampForm {
     this.page = page;
   }
 
-  get campDateSelector() { return this.page.locator("#camp-date_part"); }
-  get numberOfStudentsField() { return this.page.locator("#camp-students"); }
-  get numberStudentAgeField() { return this.page.locator("#camp-age"); }
-  get numberNumberOfAdultsField() { return this.page.locator("#camp-adults"); }
+  get campDateSelector() {
+    return this.page.locator("#camp-date_part");
+  }
+  get numberOfStudentsField() {
+    return this.page.locator("#camp-students");
+  }
+  get numberStudentAgeField() {
+    return this.page.locator("#camp-age");
+  }
+  get numberNumberOfAdultsField() {
+    return this.page.locator("#camp-adults");
+  }
 
   async setTerm(value) {
     await this.campDateSelector.selectOption({ label: value });

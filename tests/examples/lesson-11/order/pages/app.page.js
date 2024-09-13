@@ -4,10 +4,18 @@ export class AppPage {
     this.toast = this.page.locator(".toast-message");
   }
 
-  get navbarLeft() { return this.page.locator(".navbar-nav"); }
-  get mainContent() { return this.page.locator(".main_content"); }
-  get pageHeader() { return this.page.locator("h1"); }
-  get contentHeader() { return this.mainContent.locator("h3"); }
+  get navbarLeft() {
+    return this.page.locator(".navbar-nav");
+  }
+  get mainContent() {
+    return this.page.locator(".main_content");
+  }
+  get pageHeader() {
+    return this.page.locator("h1");
+  }
+  get contentHeader() {
+    return this.mainContent.locator("h3");
+  }
 
   async navbarSection(sectionText) {
     /*
@@ -17,7 +25,10 @@ export class AppPage {
         Složitější řešení nám dává trochu více jistoty, že klikáme na správný odkaz.
          */
 
-    await this.navbarLeft.locator(".dropdown").filter({ hasText: sectionText }).click();
+    await this.navbarLeft
+      .locator(".dropdown")
+      .filter({ hasText: sectionText })
+      .click();
   }
 
   async navbarItem(itemText) {
@@ -26,7 +37,10 @@ export class AppPage {
          this.navbarLeft.filter({ hasText: itemText}).click();
          */
 
-    await this.navbarLeft.locator(".dropdown-item").filter({ hasText: itemText }).click(); // same
+    await this.navbarLeft
+      .locator(".dropdown-item")
+      .filter({ hasText: itemText })
+      .click(); // same
   }
 
   async navbar(sectionText, itemText) {
