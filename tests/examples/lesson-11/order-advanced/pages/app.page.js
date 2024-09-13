@@ -4,17 +4,29 @@ export class AppPage {
     this.toast = this.page.locator(".toast-message");
   }
 
-  get navbarLeft() { return this.page.locator(".navbar-nav"); }
+  get navbarLeft() {
+    return this.page.locator(".navbar-nav");
+  }
 
-  get navbarSection() { return this.navbarLeft.locator(".dropdown"); }
+  get navbarSection() {
+    return this.navbarLeft.locator(".dropdown");
+  }
 
-  get navbarItem() { return this.navbarLeft.locator(".dropdown-item"); }
+  get navbarItem() {
+    return this.navbarLeft.locator(".dropdown-item");
+  }
 
-  get mainContent() { return this.page.locator(".main_content"); }
+  get mainContent() {
+    return this.page.locator(".main_content");
+  }
 
-  get pageHeader() { return this.page.locator("h1"); }
+  get pageHeader() {
+    return this.page.locator("h1");
+  }
 
-  get contentHeader() { return this.mainContent.locator("h3"); }
+  get contentHeader() {
+    return this.mainContent.locator("h3");
+  }
 
   async navigate(sectionText, itemText) {
     await this.navbarSection.filter({ hasText: sectionText }).click();

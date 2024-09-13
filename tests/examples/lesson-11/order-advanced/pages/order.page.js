@@ -7,17 +7,39 @@ export class OrderPage extends AppPage {
     this.address = this.mainContent.locator("#address");
   }
 
-  get companyId() { return this.mainContent.locator("#ico"); }
-  get substitute() { return this.mainContent.locator("#substitute"); }
-  get contactName() { return this.mainContent.locator("#contact_name"); }
-  get contactPhone() { return this.mainContent.locator("#contact_tel"); }
-  get contactEmail() { return this.mainContent.locator("#contact_mail"); }
-  get startDate() { return this.mainContent.locator("#start_date_1"); }
-  get endDate() { return this.mainContent.locator("#end_date_1"); }
-  get tabSelector() { return this.mainContent.locator("#nav-tab"); }
-  get submitButton() { return this.mainContent.getByRole("button", { name: "Uložit objednávku" }); }
-  get orderConfirmationText() { return this.page.locator(".card-body").locator("p"); }
-  get suburbanCampForm() { return new SuburbanCampForm(this.page); }
+  get companyId() {
+    return this.mainContent.locator("#ico");
+  }
+  get substitute() {
+    return this.mainContent.locator("#substitute");
+  }
+  get contactName() {
+    return this.mainContent.locator("#contact_name");
+  }
+  get contactPhone() {
+    return this.mainContent.locator("#contact_tel");
+  }
+  get contactEmail() {
+    return this.mainContent.locator("#contact_mail");
+  }
+  get startDate() {
+    return this.mainContent.locator("#start_date_1");
+  }
+  get endDate() {
+    return this.mainContent.locator("#end_date_1");
+  }
+  get tabSelector() {
+    return this.mainContent.locator("#nav-tab");
+  }
+  get submitButton() {
+    return this.mainContent.getByRole("button", { name: "Uložit objednávku" });
+  }
+  get orderConfirmationText() {
+    return this.page.locator(".card-body").locator("p");
+  }
+  get suburbanCampForm() {
+    return new SuburbanCampForm(this.page);
+  }
 
   async setICO(ico) {
     await this.companyId.fill(ico);
@@ -38,7 +60,14 @@ export class OrderPage extends AppPage {
     await this.suburbanCampForm.setUrbanCamp(campDate, students, age, teachers);
   }
 
-  async setOrder(substituteName, contactName, contactPhone, contactEmail, startDate, endDate) {
+  async setOrder(
+    substituteName,
+    contactName,
+    contactPhone,
+    contactEmail,
+    startDate,
+    endDate
+  ) {
     await this.substitute.fill(substituteName);
     await this.contactName.fill(contactName);
     await this.contactPhone.fill(contactPhone);
@@ -58,10 +87,18 @@ class SuburbanCampForm {
     this.page = page;
   }
 
-  get campDateSelector() { return this.page.locator("#camp-date_part"); }
-  get numberOfStudentsField() { return this.page.locator("#camp-students"); }
-  get numberStudentAgeField() { return this.page.locator("#camp-age"); }
-  get numberNumberOfAdultsField() { return this.page.locator("#camp-adults"); }
+  get campDateSelector() {
+    return this.page.locator("#camp-date_part");
+  }
+  get numberOfStudentsField() {
+    return this.page.locator("#camp-students");
+  }
+  get numberStudentAgeField() {
+    return this.page.locator("#camp-age");
+  }
+  get numberNumberOfAdultsField() {
+    return this.page.locator("#camp-adults");
+  }
 
   async setUrbanCamp(campDate, students, age, teachers) {
     await this.campDateSelector.selectOption({ label: campDate });

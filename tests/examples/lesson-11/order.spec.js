@@ -22,7 +22,8 @@ const CHILDREN = "23";
 const AGE = "8-12";
 const ADULTS = "3";
 const ORDER_SUCCESS = "Děkujeme za objednávku";
-const ORDER_SUCCESS_MESSAGE = "Objednávka byla úspěšně uložena a bude zpracována. O postupu vás budeme informovat. Zkontrolujte si také složku SPAM";
+const ORDER_SUCCESS_MESSAGE =
+  "Objednávka byla úspěšně uložena a bude zpracována. O postupu vás budeme informovat. Zkontrolujte si také složku SPAM";
 const ARES_OK_TOAST = "Data z ARESu úspěšně načtena";
 const ORDER_SUCCESS_TOAST = "Objednávka byla úspěšně uložena";
 
@@ -32,7 +33,9 @@ test.describe("Objednávka pro MŠ/ZŠ", async () => {
   });
 
   test.describe("Navigace", async () => {
-    test("Aplikace umožňuje uživateli v menu Pro učitele vytvoření nové objednávky pro MŠ/ZŠ", async ({ page }) => {
+    test("Aplikace umožňuje uživateli v menu Pro učitele vytvoření nové objednávky pro MŠ/ZŠ", async ({
+      page,
+    }) => {
       const orderPage = new OrderPage(page);
 
       await orderPage.navbar(NAVBAR_TEACHERS, NAVBAR_NEW_ORDER);
@@ -53,7 +56,9 @@ test.describe("Objednávka pro MŠ/ZŠ", async () => {
       await orderPage.navbar(NAVBAR_TEACHERS, NAVBAR_NEW_ORDER);
     });
 
-    test("Po vyplnění IČO do formuláře Objednávka pro MŠ/ZŠ se automaticky načte jméno odběratele a adresa odběratele z ARESu", async ({ page }) => {
+    test("Po vyplnění IČO do formuláře Objednávka pro MŠ/ZŠ se automaticky načte jméno odběratele a adresa odběratele z ARESu", async ({
+      page,
+    }) => {
       const orderPage = new OrderPage(page);
       await orderPage.setCompanyId(ICO);
       // TODO until ARES ('Data z ARESu se nepodařilo načíst, vyplňte je prosím ručně')
@@ -67,7 +72,9 @@ test.describe("Objednávka pro MŠ/ZŠ", async () => {
       expect(values.address).toEqual(address);
     });
 
-    test("Uživatel nemůže uložit špatně vyplněnou přihlášku", async ({ page }) => {
+    test("Uživatel nemůže uložit špatně vyplněnou přihlášku", async ({
+      page,
+    }) => {
       const orderPage = new OrderPage(page);
 
       await orderPage.setCompanyId(ICO);
@@ -95,7 +102,9 @@ test.describe("Objednávka pro MŠ/ZŠ", async () => {
       await expect(orderPage.contentHeader).toHaveText(ORDER_FORM_TITLE);
     });
 
-    test("Uživatel může uložit vyplněnou přihlášku na příměstský tábor", async ({ page }) => {
+    test("Uživatel může uložit vyplněnou přihlášku na příměstský tábor", async ({
+      page,
+    }) => {
       const orderPage = new OrderPage(page);
 
       await orderPage.setCompanyId(ICO);
@@ -122,8 +131,9 @@ test.describe("Objednávka pro MŠ/ZŠ", async () => {
 
       await expect(orderPage.toast).toHaveText(ORDER_SUCCESS_TOAST);
       await expect(orderPage.contentHeader).toHaveText(ORDER_SUCCESS);
-      await expect(orderPage.orderConfirmationText).toHaveText(ORDER_SUCCESS_MESSAGE);
+      await expect(orderPage.orderConfirmationText).toHaveText(
+        ORDER_SUCCESS_MESSAGE
+      );
     });
-  }
-  );
+  });
 });
