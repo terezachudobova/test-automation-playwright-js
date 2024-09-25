@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "devDependencies": {
     "@playwright/test": "^1.45.3",
-    "@types/node": "^20.14.11"
+    "@types/node": "^20.14.11",
+    "eslint": "^9.9.1"
   },
   "scripts": {}
 }
