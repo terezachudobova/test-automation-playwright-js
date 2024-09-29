@@ -1,8 +1,6 @@
 # Test Automation with Playwright/JavaScript
 
-## How to run
-
-### Initial setup
+## Initial setup
 First make user you have Node.js 20.8 installed. 
 
 If you sue NVM (recommended), tun the following command to set correct version of Node.js:
@@ -15,25 +13,33 @@ Then install the dependencies:
 npm install
 ```
 
-### Running tests
+## Setup environment variables
+Create a `.env` file in the root of the project and add the following variables:
+```
+BASE_URL=https://example.com
+ADMIN_USERNAME=admin
+ADMIN_PASSWORD=password
+```
+Change the values to match your environment.
 
-**To run tests in interactive mode (recommended):**
+## Running tests
+
+**Run tests in interactive mode (recommended):**
 ```
 npx playwright test --ui
 ```
 
-**To run tests in headless mode:**
+**Run tests in headless mode:**
 ```
 npx playwright test
 ```
 
-**To generate a report:**
+**Generate a report:**
 ```
 npx playwright show-report
-
 ```
 
-**To update playwright:**
+**Update playwright:**
 ```
 npx playwright install 
 ```
