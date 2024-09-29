@@ -1,4 +1,4 @@
-const { test } = require("@playwright/test");
+import { test } from "@playwright/test";
 
 /**
  * Lesson 1: First test
@@ -10,7 +10,7 @@ test("should open login page", async ({ page }) => {
 
   await page.screenshot({ path: "login_page.png" });
 
-  const pageTitleSelector = page.locator("css=h1");
+  const pageTitleSelector = page.locator("h1");
 
   console.log("TEST");
   console.log(await page.title());

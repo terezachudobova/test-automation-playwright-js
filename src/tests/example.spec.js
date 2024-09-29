@@ -1,9 +1,6 @@
-// @ts-check
-const { test, expect } = require('@playwright/test');
-const { username, password} = require("../fixtures/fixtures");
+import { test } from "@playwright/test";
 
 test("should open login page", async ({ page }) => {
-
-  // your test code goes here
-
+    await page.goto("/prihlaseni");
+    console.log(await page.title());
 });
