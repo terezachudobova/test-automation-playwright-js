@@ -7,7 +7,9 @@ import {test} from "@playwright/test";
  *
  * <div class="card-body">
  *     <form method="POST" action="https://...">
+ *         <label for="email">Email</label>
  *         <input id="email" type="email" name="email" value="">
+ *         <label for="password">Password</label>
  *         <input id="password" type="password" name="password">
  *         <button type="submit" class="btn btn-primary">Přihlásit</button>
  *         <a class="btn btn-link" href="https://...">Zapomněli jste své heslo?</a>
@@ -101,7 +103,7 @@ test.describe('Locators', async () => {
         });
 
         test('getByText', async ({ page }) => {
-            const locator = page.getByText("Zapomněli jste své heslo?")
+            const locator = page.getByText("Zapomněli jste své heslo?");
             console.log(await locator.innerHTML());
         });
 
@@ -110,21 +112,10 @@ test.describe('Locators', async () => {
             console.log(await locator.innerHTML());
         });
 
-        test('getByPlaceholder', async ({ page }) => {
-            // TODO
-        });
-
         test('getByAltText', async ({ page }) => {
             const locator = page.getByAltText('Domů');
             console.log(await locator.innerHTML());
         });
 
-        test('getByTitle', async ({ page }) => {
-            // TODO
-        });
-
-        test('getByTestId', async ({ page }) => {
-            // TODO
-        });
     });
 });

@@ -20,6 +20,9 @@ node_modules/
 .idea
 *.iml
 
+### Visual Studio Code ###
+.vscode
+
 ### Other
 **/*.png
 .env
