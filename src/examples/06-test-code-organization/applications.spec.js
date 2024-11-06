@@ -1,5 +1,5 @@
 /**
- * Lesson 7: Code organization: functions - Exercise 2
+ * Lesson 6: Code organization: functions - Exercise 2
  */
 import {expect, test} from "@playwright/test";
 import {
