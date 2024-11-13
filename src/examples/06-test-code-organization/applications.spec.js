@@ -20,6 +20,10 @@ async function login(page) {
     await page.getByRole("button", { name: "Přihlásit"}).click();
 }
 
+export async function getPageTitle(page) {
+    return await page.getByRole("heading", {level: 1});
+}
+
 async function goToApplicationsPage(page) {
     await page.getByRole("link", {name: "Přihlášky"}).click();
 }
@@ -46,7 +50,7 @@ test.describe("Applications Page", async () => {
 
     test.beforeEach(async ({page}) => {
         await login(page);
-        await test.expect(page).toHaveTitle(pageTitle);
+        await expect(page).toHaveTitle(pageTitle);
         await goToApplicationsPage(page);
         await waitForTableToLoad(page);
     });
