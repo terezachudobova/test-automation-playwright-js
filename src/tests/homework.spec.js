@@ -3,9 +3,9 @@ import { EnrollmentPage } from "./homework.enrollment.page";
 import { password, username, userFullName } from "../fixtures/fixtures";
 
 test.describe("Registration form", async () => {
-
+    let enrollmentPage;
     test.beforeEach(async ({ page }) => {
-        const enrollmentPage = new EnrollmentPage(page);
+        enrollmentPage = new EnrollmentPage(page);
 
         await enrollmentPage.navigate();
         await enrollmentPage.assertPageHeading("Registrace");
@@ -16,9 +16,7 @@ test.describe("Registration form", async () => {
             type: "test description",
             description: "Test který přejde na formulář registrace a zkontroluje, že se formulář správně zobrazil"
         }
-    }, async ({ page }) => {
-        const enrollmentPage = new EnrollmentPage(page);
-
+    }, async () => {
         await enrollmentPage.assertFormElements();
     });
 
@@ -27,8 +25,7 @@ test.describe("Registration form", async () => {
             type: "test description",
             description: "Test který provede validní registraci uživatele"
         }
-    }, async ({ page }) => {
-        const enrollmentPage = new EnrollmentPage(page);
+    }, async () => {
         const { randomName, randomEmail, randomPassword } = await enrollmentPage.generateRandomUser();
 
         await enrollmentPage.register(randomName, randomEmail, randomPassword);
@@ -41,9 +38,7 @@ test.describe("Registration form", async () => {
             type: "test description",
             description: "Test, který provede registraci uživatele s již existujícím emailem"
         }
-    }, async ({ page }) => {
-        const enrollmentPage = new EnrollmentPage(page);
-
+    }, async () => {
         await enrollmentPage.register(userFullName, username, password);
         await enrollmentPage.assertAlertMessage("Účet s tímto emailem již existuje");
         await enrollmentPage.assertAlertCount(1);
@@ -55,8 +50,7 @@ test.describe("Registration form", async () => {
             type: "test description",
             description: "Test, který provede registraci uživatele s nevalidním heslem (obsahující pouze čísla)"
         }
-    }, async ({ page }) => {
-        const enrollmentPage = new EnrollmentPage(page);
+    }, async () => {
         const { randomName, randomEmail } = await enrollmentPage.generateRandomUser();
         const invalidPassword = (await enrollmentPage.generateRandomNumber()).toString();
 
