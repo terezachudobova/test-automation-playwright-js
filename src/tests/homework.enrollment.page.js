@@ -13,7 +13,7 @@ export class EnrollmentPage {
       this.passwordInput = page.getByLabel("Heslo");
       this.confirmPasswordInput = page.getByLabel("Kontrola hesla");
       this.submitButton = page.getByRole("button", { name: "Zaregistrovat" });
-      this.loggedUser = page.locator(".nav-item").filter({ hasText: "Přihlášen" }).locator("strong");
+      this.loggedUserLink = page.locator(".nav-item").filter({ hasText: "Přihlášen" }).locator("a.dropdown-toggle");
       this.alertMessage = page.getByRole("alert");
     }
 
@@ -22,10 +22,24 @@ export class EnrollmentPage {
       await this.page.goto("/registrace");
     }
 
+    async stripSpecialCharacters(text, isEmail = false) {
+      if (isEmail) {
+        return text.replace(/[^a-zA-Z0-9@.]/g, '');
+      } else {
+      return text.replace(/[^a-zA-Z0-9 ]/g, '');
+      }
+    }
+
     async generateRandomUser() {
-      const randomName = faker.person.fullName();
-      const randomEmail = faker.internet.email();
-      const randomPassword = faker.internet.password();
+      const firstName = faker.person.firstName();
+      const lastName = faker.person.lastName();
+      let randomName = `${firstName} ${lastName}`;
+      let randomEmail = faker.internet.email();
+      let randomPassword = faker.internet.password({pattern: /[a-zA-Z0-9]/});
+
+      randomName = await this.stripSpecialCharacters(randomName);
+      randomEmail = await this.stripSpecialCharacters(randomEmail, true);
+      randomPassword = `${randomPassword}Aa1`;
 
       return { randomName, randomEmail, randomPassword };
     }
@@ -56,7 +70,6 @@ export class EnrollmentPage {
       ];
 
       for (const element of elements) {
-        await expect(element).toBeAttached();
         await expect(element).toBeVisible();
         await expect(element).toBeEnabled();
         await expect(element).toBeEditable();
@@ -64,7 +77,7 @@ export class EnrollmentPage {
     }
 
     async assertUserIsLogged(name) {
-      await expect(this.loggedUser).toHaveText(name);
+      await expect(this.loggedUserLink).toHaveAttribute('title', name);
     }
 
     async assertAlertMessage(message) {
