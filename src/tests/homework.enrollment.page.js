@@ -58,7 +58,7 @@ export class EnrollmentPage {
 
     // Assertions //
     async assertPageHeading(headingText) {
-      await expect(this.heading).toHaveText(headingText);
+      await expect(this.heading, `Page heading should have text: ${headingText}`).toHaveText(headingText);
     }
 
     async assertFormElements() {
@@ -77,14 +77,14 @@ export class EnrollmentPage {
     }
 
     async assertUserIsLogged(name) {
-      await expect(this.loggedUserLink).toHaveAttribute('title', name);
+      await expect(this.loggedUserLink, `Logged user's name should be: ${name}`).toHaveAttribute('title', name);
     }
 
     async assertAlertMessage(message) {
-      await expect(this.alertMessage).toHaveText(message);
+      await expect(this.alertMessage, `Alert message should be: ${message}`).toHaveText(message);
     }
 
     async assertAlertCount(count) {
-      await expect(this.alertMessage).toHaveCount(count);
+      await expect(this.alertMessage,`Number of alert messages displayed should be: ${count}`).toHaveCount(count);
     }
 }
