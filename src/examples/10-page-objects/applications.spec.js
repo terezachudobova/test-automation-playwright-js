@@ -73,9 +73,9 @@ test.describe('Applications Page', async () => {
 
         // Advanced: assert the content of the application detail
         const applicationDetail = await applicationDetailPage.getDetail();
-        await expect(applicationDetail.studentFirstName).toEqual([thirdRowValues.name.split(" ")[1]]);
-        await expect(applicationDetail.studentLastName).toEqual([thirdRowValues.name.split(" ")[0]]);
-        await expect(applicationDetail.payment).toContain(
+        await expect(applicationDetail[3][1]).toEqual([thirdRowValues.name.split(" ")[1]]);
+        await expect(applicationDetail[4][1]).toEqual([thirdRowValues.name.split(" ")[0]]);
+        await expect(applicationDetail[1][1]).toContain(
             thirdRowValues.paymentType,
             "Zbývá uhradit: " + thirdRowValues.toPay
         );

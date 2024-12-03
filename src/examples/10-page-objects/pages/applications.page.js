@@ -1,3 +1,5 @@
+import {sanitizeText} from "../../../fixtures/helpers";
+
 /**
  * Page object describing the applications page
  */
@@ -69,29 +71,19 @@ export class ApplicationInfoPage {
     }
 
     async getDetail() {
+        let data = [];
         await this.page.waitForLoadState();
 
         // get all rows
         const rows = await this.tableRows.all();
 
-        // this is a local helper function to get text content of a cell in a row
-        async function getRowContent(index) {
-            const text = await rows[index].locator("td").nth(1).textContent();
-            return text
-                .split("\n") // split string by new lines
-                .map(line => line.replace(/\s{2,}/g, ""))
-                .filter(line => line.length > 0) // remove empty lines;
+        for (const row of rows) {
+            const key = await row.locator("td").nth(0).textContent();
+            const value = (await row.locator("td").nth(1).textContent())
+            // push the key-value pair to the data array
+            data.push([key, sanitizeText(value)]);
         }
 
-        return {
-            created: await getRowContent(0),
-            payment: await getRowContent(1),
-            legalRepresentativeName: await getRowContent(2),
-            studentFirstName: await getRowContent(3),
-            studentLastName: await getRowContent(4),
-            studentBirthday: await getRowContent(5),
-            legalRepresentativeEmail: await getRowContent(6),
-            note: await getRowContent(7),
-        }
+        return data;
     }
 }
