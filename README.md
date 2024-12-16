@@ -34,17 +34,29 @@ npx playwright test --ui
 npx playwright test
 ```
 
-**Run examples:**
-```
-npx playwright test --config=playwright.examples.config.js --ui 
-```
-
 **Generate a report:**
 ```
 npx playwright show-report
 ```
 
-**Update playwright:**
+## Running examples
+
+**Examples (lesson 1 - 11):**
+```
+npx playwright test --config=playwright.examples.config.js --ui 
+```
+
+**Cucumber examples (lesson 12):**
+```
+npx playwright test --config=playwright.cucumber.config.js --ui
+```
+
+**Cucumber BDD generator:**
+```
+npx bddgen --config=playwright.cucumber.config.js
+```
+
+## Update playwright
 ```
 npx playwright install 
 ```
