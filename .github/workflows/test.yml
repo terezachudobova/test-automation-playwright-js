@@ -1,6 +1,7 @@
 name: Playwright Tests and Deploy Report to GitHub Pages
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - main
