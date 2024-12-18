@@ -60,3 +60,9 @@ npx bddgen --config=playwright.cucumber.config.js
 ```
 npx playwright install 
 ```
+
+# Docker
+You can run tests in Docker. There is a dedicated cofing file for Docker: `playwright.docker.config.js`.
+```
+docker-compose up --build
+```
