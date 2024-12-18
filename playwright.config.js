@@ -2,7 +2,7 @@
 require('dotenv').config();
 
 const { defineConfig, devices } = require('@playwright/test');
-// const { BASE_URL } = process.env;
+const { BASE_URL } = process.env;
 
 /**
  * @see https://playwright.dev/docs/test-configuration
