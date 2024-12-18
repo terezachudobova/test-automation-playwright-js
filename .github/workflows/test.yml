@@ -33,7 +33,7 @@ jobs:
         run: npm install
 
       - name: Run tests
-        run: npx playwright test -g "order.spec.js"
+        run: npx playwright test -g "homework.spec.js"
         env:
           ADMIN_USERNAME: ${{ secrets.ADMIN_USERNAME }}
           ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD }}
