@@ -1,6 +1,6 @@
 import { expect } from "@playwright/test";
 import { createBdd } from "playwright-bdd";
-import { applicationFixture } from "./common.steps"
+import {applicationFixture, resolvePlaceholder} from "./common.steps"
 
 const { Given, When, Then } = createBdd(applicationFixture);
 
@@ -15,8 +15,8 @@ Then("user sees login form with button Přihlásit", async ({ app }) => {
 });
 
 Given("user provides username {string} and password {string}", async ({ app }, username, password) => {
-    await app.loginPage.fillUsername(username);
-    await app.loginPage.fillPassword(password);
+    await app.loginPage.fillUsername(resolvePlaceholder(username));
+    await app.loginPage.fillPassword(resolvePlaceholder(password));
 });
 
 When("user clicks on login button", async ({ app }) => {
@@ -24,7 +24,7 @@ When("user clicks on login button", async ({ app }) => {
 });
 
 Then("user is logged in as {string}", async ({ app }, fullName) => {
-    await expect(app.usernameDropdown).toHaveText(fullName);
+    await expect(app.usernameDropdown).toHaveText(resolvePlaceholder(fullName));
 });
 
 Then("toast message pops up: {string}", async ({ app }, message) => {

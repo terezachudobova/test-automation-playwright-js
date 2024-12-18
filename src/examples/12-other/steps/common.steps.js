@@ -1,6 +1,19 @@
 import { createBdd, test as base } from "playwright-bdd";
 import { ApplicationPages } from "../pages";
-import {password, username} from "../../../fixtures/fixtures";
+import {password, userFullName, username} from "../../../fixtures/fixtures";
+
+export function resolvePlaceholder(placeholderOrValue) {
+    switch (placeholderOrValue) {
+        case '@ADMIN_USERNAME@':
+            return username;
+        case '@ADMIN_PASSWORD@':
+            return password;
+        case '@ADMIN_FULL_NAME@':
+            return userFullName;
+        default:
+            return placeholderOrValue;
+    }
+}
 
 export const applicationFixture = base.extend({
     app: async ({ page }, use) => {
